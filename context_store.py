@@ -1,13 +1,16 @@
 import redis
 import json
-#redis_client = redis.StrictRedis(host="localhost", port=6379, db=0, decode_responses=True)
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  
+
 redis_client = redis.StrictRedis(
-    host="your-redis-host",
-    port=your-redis-port,
-    password="your-redis-password",
+    host=os.getenv("REDIS_HOST", "localhost"),
+    port=int(os.getenv("REDIS_PORT", 6379)),
+    password=os.getenv("REDIS_PASSWORD", None),
     decode_responses=True
 )
-
 
 def store_session(user_id, message):
     history = redis_client.get(user_id)

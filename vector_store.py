@@ -1,8 +1,15 @@
 import pinecone
+import os
+from dotenv import load_dotenv
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import Pinecone
 
-pinecone.init(api_key="your-pinecone-api-key", environment="us-west1-gcp")
+load_dotenv()  # Load env variables
+
+pinecone.init(
+    api_key=os.getenv("PINECONE_API_KEY"),
+    environment=os.getenv("PINECONE_ENV", "us-west1-gcp")
+)
 index_name = "chatbot-memory"
 
 if index_name not in pinecone.list_indexes():
